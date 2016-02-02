@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+<body>
+<input type="text" name="name1"/>
+<button class="search1">前端编码-搜索</button>
+<input type="text" name="name2"/>
+<button class="search2">前端不编码-搜索</button>
+<input type="text" name="name3"/>
+<button class="search3">post-搜索</button>
+<form action="/testEncoding" method="get" >
+  <input type="text" name="name4"/>
+  <input type="text" name="action" value="ys"/>
+  <input type="submit" value="原生提交表单"/>
+</form>
+</body>
+<script src="//g.alicdn.com/sj/lib/jquery/dist/jquery.min.js"></script>
+<script>
+  var params = {
+    name1 : 'moren',
+    name2 : 'moren',
+    name3 : 'moren'
+  }
+  $('.search1').on('click',function(){
+    params.name1 = encodeURIComponent($('[name=name1]').val());
+    $.ajax({
+      url:'/testEncoding?action=yes&' + $.param($.extend({},params)),
+      type:'get',
+      dataType:'json'
+    }).success(function(res){
+
+    }).fail(function(){
+
+    })
+  })
+  $('.search2').on('click',function(){
+    params.name2 = $('[name=name2]').val();
+    $.ajax({
+      url:'/testEncoding?action=no&' + $.param($.extend({},params)),
+      type:'get',
+      dataType:'json'
+    }).success(function(res){
+
+    }).fail(function(){
+
+    })
+  })
+  $.ajaxSetup({
+    contentType: "application/x-www-form-urlencoded;charset=gb2312"
+  });
+  $('.search3').on('click',function(){
+    params.name3 = $('[name=name3]').val();
+    $.ajax({
+      url:'/testEncoding?action=post',
+      type:'post',
+      dataType:'json',
+      data : params,
+      contentType: "application/x-www-form-urlencoded;charset=gb2312"
+    }).success(function(res){
+
+    }).fail(function(){
+
+    })
+  })
+</script>
+</html>
